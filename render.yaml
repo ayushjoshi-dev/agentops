@@ -1,0 +1,107 @@
+# ============================================================
+# Render Deployment Configuration
+# ============================================================
+#
+# WHY render.yaml?
+# ----------------
+# This file tells Render EXACTLY how to deploy your application.
+# When you connect your GitHub repo to Render, it reads this file
+# and auto-configures all services.
+#
+# Each git push to `main` triggers an automatic redeploy — no Docker needed!
+#
+# SERVICES IN THIS FILE:
+# 1. agentops-backend  → FastAPI Python service
+# 2. agentops-frontend → React static site
+#
+# ENVIRONMENT VARIABLES:
+# Set sensitive values (API keys, DB URL) directly in the Render dashboard,
+# NOT in this file. This file is committed to GitHub.
+# ============================================================
+
+services:
+  # ── Backend: FastAPI ──────────────────────────────────────
+  - type: web                          # A web service (has a URL)
+    name: agentops-backend
+    runtime: python                    # Native Python — no Docker needed
+    region: singapore                  # Choose closest to your users
+    plan: free                         # Render free tier (spin-down after 15min idle)
+    
+    rootDir: backend                   # Working directory for this service
+    
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    #                                                          ^^^^
+    #   Render automatically sets $PORT — NEVER hardcode 8000 here
+    
+    healthCheckPath: /api/health       # Render pings this to check if app is running
+    
+    envVars:
+      # These are set in Render Dashboard → Service → Environment
+      # We list them here so Render knows which vars to expect
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DATABASE_URL
+        sync: false                    # sync: false = set manually in dashboard
+      - key: LLM_PROVIDER
+        value: groq
+      - key: LLM_API_KEY
+        sync: false                    # Set in Render dashboard (never commit!)
+      - key: LLM_MODEL
+        value: llama-3.1-8b-instant
+      - key: LLM_MAX_TOKENS
+        value: "2048"
+      - key: LLM_TEMPERATURE
+        value: "0.1"
+      - key: EMBEDDING_PROVIDER
+        value: local
+      - key: EMBEDDING_MODEL
+        value: all-MiniLM-L6-v2
+      - key: EMBEDDING_DIMENSION
+        value: "384"
+      - key: JWT_SECRET
+        sync: false                    # Generate and set in dashboard
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_EXPIRY_HOURS
+        value: "24"
+      - key: CORS_ORIGINS
+        sync: false                    # Set to your frontend Render URL
+      - key: RAG_CHUNK_SIZE
+        value: "500"
+      - key: RAG_CHUNK_OVERLAP
+        value: "50"
+      - key: RAG_TOP_K
+        value: "5"
+      - key: AGENT_MAX_ITERATIONS
+        value: "10"
+      - key: AGENT_TIMEOUT_SECONDS
+        value: "60"
+
+  # ── Frontend: React Static Site ────────────────────────
+  - type: web
+    name: agentops-frontend
+    runtime: static                    # Static site — just HTML/CSS/JS files
+    region: singapore
+    plan: free
+    
+    rootDir: frontend                  # Vite project root
+    
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist          # Vite outputs to dist/
+    
+    # Rewrite all routes to index.html (for React Router SPA)
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    
+    envVars:
+      - key: VITE_API_URL
+        sync: false                    # Set to your backend Render URL
+        # Example: https://agentops-backend.onrender.com

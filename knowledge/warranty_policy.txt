@@ -1,0 +1,88 @@
+WARRANTY POLICY — ShopEase E-Commerce
+========================================
+Document Type: Company Policy
+Section: Warranty Policy
+Version: 1.5
+Effective Date: January 1, 2025
+
+1. WARRANTY COVERAGE
+---------------------
+ShopEase provides warranty coverage as follows:
+
+Electronics (Mobiles, Laptops, Tablets): 1 year manufacturer warranty
+Home Appliances (Large): 2 years manufacturer warranty + 1 year extended from ShopEase
+Home Appliances (Small): 1 year manufacturer warranty
+Audio Accessories (Earphones, Headphones): 6 months manufacturer warranty
+Clothing & Fashion: 30 days against manufacturing defects only
+Sports Equipment: 6 months
+Furniture: 1 year against structural defects
+
+Note: Warranty periods start from the date of delivery.
+
+2. WHAT IS COVERED
+-------------------
+The warranty covers:
+- Manufacturing defects.
+- Hardware failures under normal use conditions.
+- Component failures within the warranty period.
+- Dead pixels on screens (more than 5 dead pixels).
+
+3. WHAT IS NOT COVERED
+-----------------------
+The warranty does NOT cover:
+- Physical damage caused by the customer (drops, cracks, liquid damage).
+- Normal wear and tear.
+- Damage caused by unauthorized repair or modification.
+- Damage caused by using incompatible accessories or chargers.
+- Cosmetic damage that doesn't affect product functionality.
+- Damage due to acts of nature (flood, fire, lightning).
+- Products with tampered or removed serial numbers.
+- Software issues or virus damage.
+
+4. HOW TO CLAIM WARRANTY
+--------------------------
+Step 1: Contact our support team via AI agent or email warranty@shopease.com.
+Step 2: Provide your order ID, product serial number, and description of the issue.
+Step 3: Our team will assess whether the issue falls under warranty.
+Step 4: If approved:
+  - In-home repair for large appliances (if applicable).
+  - Ship-back for repair (ShopEase covers shipping for warranty claims).
+  - Product replacement if repair is not possible.
+
+Processing time: 7-14 business days for warranty claims.
+
+5. WARRANTY CLAIM ELIGIBILITY CHECK
+-------------------------------------
+To check if your product is under warranty, ask the AI agent:
+"Is product [PRODUCT_NAME] in order [ORDER_ID] still under warranty?"
+
+The agent will check:
+- Date of delivery.
+- Product category.
+- Warranty period for that category.
+- Whether the product is within the warranty window.
+
+6. EXTENDED WARRANTY
+---------------------
+ShopEase offers extended warranty plans:
+- 1-Year Extension: 5% of product price.
+- 2-Year Extension: 8% of product price.
+
+Extended warranty can be purchased within 30 days of delivery.
+Not available for products already out of warranty.
+
+7. MANUFACTURER vs SHOPEASE WARRANTY
+--------------------------------------
+Some products come with both:
+- Manufacturer warranty: Handled by the brand's service center.
+- ShopEase warranty: Handled by ShopEase directly.
+
+For manufacturer warranty claims, we help connect you with the brand's authorized service center.
+For ShopEase warranty claims, we handle the process end-to-end.
+
+8. PROOF OF PURCHASE
+---------------------
+Always keep your order ID and delivery confirmation as proof of purchase.
+Warranty claims without proof of purchase may be rejected.
+
+For warranty inquiries: warranty@shopease.com or chat with our AI agent.

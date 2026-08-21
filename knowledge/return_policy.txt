@@ -1,0 +1,78 @@
+RETURN POLICY — ShopEase E-Commerce
+======================================
+Document Type: Company Policy
+Section: Return Policy
+Version: 1.8
+Effective Date: January 1, 2025
+
+1. RETURN WINDOW
+-----------------
+Standard Return Window: 7 days from the date of delivery.
+Extended Return Window (Electronics): 14 days from the date of delivery.
+Extended Return Window (Holiday Season Dec 1–Jan 15): 21 days from date of purchase.
+
+2. RETURN CONDITIONS
+---------------------
+To qualify for a return, the product must:
+- Be in its original packaging.
+- Be unused and in the same condition it was received.
+- Include all original accessories, manuals, and tags.
+- Have the original invoice or order number.
+
+3. NON-RETURNABLE ITEMS
+------------------------
+The following cannot be returned:
+- Opened software, video games, or digital downloads.
+- Intimate apparel or swimwear for hygiene reasons.
+- Customized or personalized products.
+- Hazardous materials or flammable liquids.
+- Any product explicitly marked "Non-Returnable" at time of purchase.
+- Products with removed or tampered serial numbers.
+
+4. HOW TO INITIATE A RETURN
+-----------------------------
+Step 1: Request a return through the AI chat agent or support portal.
+Step 2: Provide your order ID and reason for return.
+Step 3: We will email a prepaid return shipping label within 24 hours.
+Step 4: Pack the product securely using the original packaging.
+Step 5: Drop off at any authorized courier location.
+
+5. RETURN SHIPPING
+-------------------
+ShopEase covers return shipping for:
+- Defective products.
+- Wrong items received.
+- Products damaged during original delivery.
+
+Customer pays return shipping for:
+- Change of mind returns.
+- Ordered by mistake.
+- Size or color preference change.
+
+Return shipping cost: Deducted from refund amount. Typical cost ₹80–₹150.
+
+6. AFTER RETURN IS RECEIVED
+-----------------------------
+Once we receive and inspect the returned product:
+- Inspection time: 1-2 business days.
+- If approved: Refund processed in 5-7 business days.
+- If rejected (product condition not acceptable): Product shipped back to customer.
+
+7. EXCHANGE POLICY
+-------------------
+We offer direct exchanges for:
+- Wrong size received.
+- Wrong color received.
+- Defective product replacement.
+
+To request an exchange, ask the AI agent: "Exchange order [ORDER_ID]" or create a support ticket.
+
+8. ELECTRONICS RETURN GUIDELINES
+----------------------------------
+For electronics returns:
+- All data must be erased before return.
+- Original charger, cables, and accessories must be included.
+- Original box must be intact.
+- Factory reset must be performed on mobile devices.
+
+Questions? Contact us at returns@shopease.com or chat with our AI agent.

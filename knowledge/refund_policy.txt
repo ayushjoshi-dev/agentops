@@ -1,0 +1,72 @@
+REFUND POLICY — ShopEase E-Commerce
+======================================
+Document Type: Company Policy
+Section: Refund Policy
+Version: 2.1
+Effective Date: January 1, 2025
+
+1. ELIGIBILITY FOR REFUNDS
+---------------------------
+Customers are eligible for a full refund if:
+- The refund request is made within 7 days of delivery.
+- The product is defective, damaged during shipping, or different from what was ordered.
+- The order was cancelled before it was shipped.
+
+Customers are NOT eligible for a refund if:
+- The product was used and is not defective.
+- The refund request is made after 7 days of delivery.
+- The product was damaged by the customer after delivery.
+- Digital products or software licenses that have been activated.
+
+2. REFUND PROCESS
+------------------
+Step 1: Customer initiates a refund request through the support portal or by contacting support.
+Step 2: Customer must provide the order ID and reason for refund.
+Step 3: Our team reviews the request within 2 business days.
+Step 4: If approved, the refund is processed within 5-7 business days to the original payment method.
+
+3. RESTOCKING FEE
+------------------
+A restocking fee of 10% may be charged for:
+- Products that are returned without defect.
+- Products returned after 3 days of delivery but within the 7-day window.
+
+No restocking fee is charged for:
+- Defective or damaged products.
+- Products received different from what was ordered.
+- Orders cancelled before shipping.
+
+4. PARTIAL REFUNDS
+-------------------
+Partial refunds may be issued if:
+- Only part of the order was damaged.
+- The customer returns only some items from a multi-item order.
+
+5. NON-REFUNDABLE ITEMS
+------------------------
+The following cannot be refunded:
+- Gift cards and store credit.
+- Items marked as "Final Sale" or "Non-Returnable".
+- Personalized or custom-made products.
+- Perishable goods.
+- Software licenses after activation.
+
+6. HOW TO INITIATE A REFUND
+-----------------------------
+Option A: Through the web chat — Ask our AI agent to "initiate a refund for order [ORDER_ID]".
+Option B: Create a support ticket with priority "HIGH" and subject "Refund Request".
+Option C: Email support@shopease.com with your order details.
+
+7. REFUND STATUS
+-----------------
+Customers can check refund status by asking the agent: "What is the status of my refund for order [ORDER_ID]?"
+
+8. DAMAGED PRODUCTS
+--------------------
+If your product arrived damaged:
+- Take a photo of the damaged product and packaging.
+- Contact support immediately — do not discard packaging.
+- We will arrange a pickup and issue a full refund including shipping charges.
+- Processing time: 3-5 business days after product pickup.
+
+For questions, contact support@shopease.com or use our web chat.

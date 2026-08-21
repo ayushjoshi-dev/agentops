@@ -1,0 +1,84 @@
+CANCELLATION POLICY — ShopEase E-Commerce
+==========================================
+Document Type: Company Policy
+Section: Cancellation Policy
+Version: 1.6
+Effective Date: January 1, 2025
+
+1. CANCELLATION WINDOW
+------------------------
+Orders can be cancelled:
+- Anytime BEFORE the order is shipped.
+- AFTER shipping: Orders cannot be cancelled (only returns/refunds apply after delivery).
+
+Order statuses where cancellation is allowed:
+- PLACED
+- PROCESSING
+
+Order statuses where cancellation is NOT allowed:
+- SHIPPED
+- OUT_FOR_DELIVERY
+- DELIVERED
+
+2. HOW TO CANCEL AN ORDER
+---------------------------
+Method A: Through the AI Agent
+  Say: "Cancel my order ORD-XXXX"
+  The agent will:
+  1. Verify the order exists and belongs to you.
+  2. Check if the order is still cancellable.
+  3. Ask for your confirmation before cancelling.
+  4. Process the cancellation upon your confirmation.
+
+Method B: Through the Support Portal
+  Go to My Orders → Select Order → Click "Cancel Order"
+
+Method C: Through Customer Support
+  Contact support@shopease.com or call 1800-XXX-XXXX.
+
+IMPORTANT: Cancellation is IRREVERSIBLE. Once confirmed, the order cannot be restored.
+
+3. CANCELLATION CONFIRMATION
+------------------------------
+Our AI agent will ALWAYS ask for confirmation before cancelling an order.
+This is a safety measure — the agent never cancels without explicit user agreement.
+
+Example:
+  User: "Cancel order ORD-1025."
+  Agent: "I found your order ORD-1025 for a Dell Laptop worth ₹55,000. 
+         It is currently in PROCESSING status. 
+         Cancelling this order is irreversible. 
+         Are you sure you want to cancel? (Yes/No)"
+
+4. REFUND AFTER CANCELLATION
+------------------------------
+Upon successful cancellation:
+- If paid online: Full refund within 5-7 business days to original payment method.
+- If Cash on Delivery: No charge is made since payment wasn't collected.
+- No restocking fee for cancellations before shipping.
+
+5. PARTIAL CANCELLATION
+------------------------
+For multi-item orders:
+- Individual items can be cancelled as long as those specific items are not shipped.
+- If some items are shipped and some are not, only unshipped items can be cancelled.
+
+6. SELLER-CANCELLED ORDERS
+----------------------------
+Occasionally, ShopEase or a seller may cancel an order due to:
+- Product out of stock.
+- Unable to deliver to pin code.
+- Payment verification failure.
+- Fraudulent order detection.
+
+In these cases:
+- Customer is notified immediately by email.
+- Full refund is processed automatically within 5-7 business days.
+
+7. SPECIAL CIRCUMSTANCES
+--------------------------
+Pre-order cancellations: Allowed anytime before the shipping date.
+Flash sale orders: Same cancellation rules apply.
+Bulk orders: Contact B2B support for cancellation — standard policy may vary.
+
+For cancellation help: support@shopease.com or chat with our AI agent.

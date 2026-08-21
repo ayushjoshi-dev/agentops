@@ -1,0 +1,14 @@
+# ============================================================
+# AgentOps — Dev-only Dependencies
+# ============================================================
+# Install with: pip install -r requirements-dev.txt
+
+pytest==8.3.4
+pytest-asyncio==0.24.0
+pytest-cov==6.0.0
+httpx==0.28.0         # For FastAPI TestClient
+faker==33.1.0         # For generating seed data
+black==24.10.0        # Code formatting
+isort==5.13.2         # Import sorting
+flake8==7.1.1         # Linting
+mypy==1.13.0          # Type checking

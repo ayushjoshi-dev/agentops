@@ -1,0 +1,99 @@
+SHIPPING POLICY — ShopEase E-Commerce
+========================================
+Document Type: Company Policy
+Section: Shipping Policy
+Version: 2.3
+Effective Date: January 1, 2025
+
+1. SHIPPING PARTNERS
+---------------------
+ShopEase ships with the following courier partners:
+- BlueDart (Premium/Express)
+- Delhivery (Standard)
+- Ekart (Standard/Economy)
+- India Post (Economy/Remote areas)
+
+2. DELIVERY TIMEFRAMES
+------------------------
+
+Standard Delivery (Free):
+- Metro cities (Mumbai, Delhi, Bangalore, Chennai, Hyderabad, Kolkata): 3-5 business days
+- Tier-2 cities: 5-7 business days
+- Tier-3 cities and rural areas: 7-10 business days
+
+Express Delivery (₹149):
+- Metro cities: 1-2 business days
+- Other cities: 2-3 business days
+Note: Express delivery not available in all pin codes.
+
+Same-Day Delivery (₹249):
+- Available in select metro cities only.
+- Order must be placed before 12:00 PM.
+
+3. ORDER TRACKING
+------------------
+Every order is assigned a tracking number after dispatch.
+Customers can track their order by:
+- Asking the AI agent: "Where is my order ORD-XXXX?" or "Track order ORD-XXXX"
+- Visiting the courier website and entering the tracking number.
+- Checking the "My Orders" section after login.
+
+Typical tracking updates:
+- Order Placed → Processing → Shipped → Out for Delivery → Delivered
+
+4. SHIPPING CHARGES
+--------------------
+Free Shipping: Orders above ₹499.
+Below ₹499: Flat ₹49 shipping fee.
+Express Delivery: ₹149 additional.
+Same-Day Delivery: ₹249 additional.
+Cash on Delivery: ₹25 additional handling fee.
+
+5. DELIVERY ATTEMPTS
+---------------------
+Our courier partners make 3 delivery attempts:
+- Attempt 1: As scheduled.
+- Attempt 2: Next business day.
+- Attempt 3: Third business day.
+
+After 3 failed attempts, the package is held at the nearest courier facility for 5 days.
+After 5 days, the package is returned to ShopEase and the order is marked as "Return to Origin" (RTO).
+
+For RTO orders, a refund is issued after deducting shipping charges.
+
+6. DELIVERY DELAYS
+-------------------
+Common reasons for delays:
+- Natural disasters or extreme weather.
+- Public holidays and festivals.
+- Address verification issues.
+- Remote location.
+- High volume periods (festive seasons).
+
+If your order is delayed beyond the expected date, please contact us via the AI agent or email shipping@shopease.com.
+
+7. DAMAGED IN TRANSIT
+----------------------
+If your product arrived damaged:
+- Do NOT accept a delivery that is visibly and heavily damaged externally.
+- If you accepted a damaged delivery, contact us within 24 hours.
+- Provide photos of the damaged package and product.
+- We will arrange a pickup and replacement or refund.
+
+8. ADDRESS CHANGES
+-------------------
+Address changes can be made ONLY if the order has not been shipped yet.
+Contact the AI agent immediately to request an address change.
+Once an order is marked "Shipped", addresses cannot be modified.
+
+9. INTERNATIONAL SHIPPING
+--------------------------
+Currently, ShopEase ships ONLY within India.
+International shipping is planned for future expansion.
+
+10. PIN CODE AVAILABILITY
+--------------------------
+Not all products are available for delivery to all pin codes.
+Check product availability during checkout by entering your pin code.
+
+For shipping inquiries, contact shipping@shopease.com or chat with our AI agent.

@@ -1,0 +1,58 @@
+# ============================================================
+# AgentOps — Backend Dependencies
+# ============================================================
+# 
+# Install with:  pip install -r requirements.txt
+# Dev install:   pip install -r requirements.txt -r requirements-dev.txt
+# ============================================================
+
+# ── Web Framework ─────────────────────────────────────────
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+python-multipart==0.0.12
+
+# ── Pydantic ──────────────────────────────────────────────
+pydantic==2.10.3
+pydantic-settings==2.6.1
+
+# ── Database ──────────────────────────────────────────────
+sqlalchemy==2.0.36
+psycopg2-binary==2.9.10
+alembic==1.14.0
+
+# ── Authentication ────────────────────────────────────────
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# ── AI / LLM ──────────────────────────────────────────────
+langchain==0.3.10
+langchain-core==0.3.24
+langchain-community==0.3.10
+langgraph==0.2.59
+langchain-groq==0.2.1
+langchain-openai==0.2.12
+
+# ── Embeddings ────────────────────────────────────────────
+# Using sentence-transformers for local embeddings (free, no API key needed)
+# Can be swapped to OpenAI embeddings via env variable
+sentence-transformers==3.3.1
+
+# ── pgvector ──────────────────────────────────────────────
+pgvector==0.3.6
+
+# ── Document Processing ───────────────────────────────────
+pypdf==5.1.0
+langchain-text-splitters==0.3.3
+
+# ── HTTP / Async ──────────────────────────────────────────
+httpx==0.28.0
+aiofiles==24.1.0
+
+# ── Utilities ─────────────────────────────────────────────
+python-dotenv==1.0.1
+structlog==24.4.0
+tenacity==9.0.0
+uuid==1.30
+
+# ── CORS / Security ───────────────────────────────────────
+# (included in fastapi)

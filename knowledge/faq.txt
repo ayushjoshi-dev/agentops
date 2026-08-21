@@ -1,0 +1,113 @@
+FREQUENTLY ASKED QUESTIONS (FAQ) — ShopEase E-Commerce
+=========================================================
+Document Type: FAQ
+Version: 3.1
+Effective Date: January 1, 2025
+
+==============================
+SECTION 1: ORDERS
+==============================
+
+Q: How do I track my order?
+A: You can track your order by asking our AI agent: "Where is my order ORD-XXXX?" — replacing XXXX with your order number. You can also check the courier's website using the tracking number sent to your email.
+
+Q: Can I change my delivery address after placing the order?
+A: Address changes are only possible before the order is shipped. Contact us immediately via chat if you need to change your address. Once the order is marked "Shipped", addresses cannot be modified.
+
+Q: My order shows "Delivered" but I haven't received it.
+A: First check with your neighbors or building security. If not found within 24 hours, create a support ticket immediately with "Delivered but not received" as the subject. We will investigate with the courier and resolve within 3-5 business days.
+
+Q: Can I order for a gift and have it delivered to a different address?
+A: Yes! Enter the recipient's address as the delivery address during checkout. Gift wrapping options are available for select products.
+
+Q: What happens if I'm not home during delivery?
+A: The courier will attempt delivery 3 times. After the 3rd failed attempt, the package is held at the nearest facility for 5 days before being returned to us.
+
+==============================
+SECTION 2: PAYMENTS
+==============================
+
+Q: What payment methods do you accept?
+A: We accept UPI (PhonePe, GPay, Paytm), Net Banking, Credit Cards, Debit Cards, EMI, and Cash on Delivery (COD) for orders below ₹20,000.
+
+Q: Is Cash on Delivery available?
+A: Yes, COD is available for orders below ₹20,000. A handling fee of ₹25 applies to COD orders.
+
+Q: My payment was deducted but order is not confirmed.
+A: This can happen due to network issues. Wait 30 minutes — the payment usually reverses automatically. If the order is still not confirmed after 30 minutes, contact us and we will investigate. The amount will be refunded within 3-5 business days if the order was not placed.
+
+Q: How do I pay using EMI?
+A: Select "EMI" as payment method during checkout. Enter your credit card details and select your preferred EMI tenure (3, 6, 9, or 12 months). EMI is available on purchases above ₹3,000 with supported bank cards.
+
+==============================
+SECTION 3: REFUNDS
+==============================
+
+Q: How long does a refund take?
+A: Once approved, refunds take 5-7 business days to reflect in your account. UPI refunds are typically faster (1-3 business days). Credit/Debit card refunds take 5-7 business days depending on your bank.
+
+Q: Can I get a refund in cash if I paid online?
+A: No. Refunds are processed to the original payment method only.
+
+Q: I received a damaged product. What should I do?
+A: Contact us immediately through the AI agent or email support@shopease.com. Provide your order ID and photos of the damage. We will arrange a pickup and issue a full refund or replacement within 5-7 business days.
+
+Q: Will I get a full refund if I cancel my order?
+A: Yes, you will receive a full refund if you cancel before the order is shipped. No restocking or cancellation fee applies for pre-shipping cancellations.
+
+Q: What is a restocking fee?
+A: A 10% restocking fee may apply for returns of non-defective products made 3-7 days after delivery. No restocking fee for defective products or orders cancelled before shipping.
+
+==============================
+SECTION 4: PRODUCTS
+==============================
+
+Q: Are the products on ShopEase genuine?
+A: Yes. ShopEase works only with authorized sellers and brand-certified resellers. All electronics come with manufacturer warranty cards.
+
+Q: Can I search for products by price range?
+A: Yes! Ask the AI agent: "Find laptops under ₹60,000" or "Show me headphones between ₹1,000 and ₹5,000".
+
+Q: What if a product I want is out of stock?
+A: You can set a "notify me" alert on the product page. We will email you when the product is back in stock.
+
+Q: Do you sell used or refurbished products?
+A: Yes. Refurbished products are clearly labeled "Certified Refurbished" and come with a 6-month warranty. They are not eligible for exchange but are eligible for returns within the standard window.
+
+==============================
+SECTION 5: ACCOUNT & SECURITY
+==============================
+
+Q: How do I reset my password?
+A: Click "Forgot Password" on the login page. Enter your registered email address. A password reset link will be sent to your email within 5 minutes.
+
+Q: Is my personal data safe?
+A: ShopEase follows strict data protection practices. We never share your personal information with third parties for marketing purposes. Payment information is encrypted and not stored on our servers.
+
+Q: Can I delete my account?
+A: Yes. Contact support@shopease.com with your account deletion request. Please note that order history will be retained for legal compliance for 7 years.
+
+==============================
+SECTION 6: SUPPORT
+==============================
+
+Q: How do I contact customer support?
+A: You can:
+   - Chat with our AI agent (available 24/7) through the web interface.
+   - Email us at support@shopease.com (response within 24 hours).
+   - Call us at 1800-XXX-XXXX (Mon-Sat, 9 AM - 6 PM IST).
+
+Q: What can the AI agent help with?
+A: Our AI agent can help with:
+   - Tracking orders.
+   - Checking refund eligibility.
+   - Creating support tickets.
+   - Explaining policies (refund, return, warranty, shipping, cancellation).
+   - Searching products.
+   - Calculating refund amounts.
+   - Checking warranty status.
+
+Q: How do I create a support ticket?
+A: Ask the AI agent: "Create a support ticket for my order ORD-XXXX" or describe your problem and the agent will create a ticket automatically.
+
+For any other questions, chat with our AI agent or contact support@shopease.com.
