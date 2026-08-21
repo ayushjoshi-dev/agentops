@@ -44,10 +44,17 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.core.config import settings
 from app.core.database import Base
 
-# Import ALL models here so Alembic can detect them for autogenerate
-# Add new models here as we create them
+# Import ALL models so Alembic can detect them for autogenerate
+# Every model file must be imported here — Alembic reads Base.metadata
 from app.models.user import User
 from app.models.product import Product
+from app.models.order import Order, OrderItem
+from app.models.ticket import SupportTicket
+from app.models.conversation import Conversation
+from app.models.message import Message
+from app.models.document import Document, DocumentChunk
+from app.models.agent_run import AgentRun
+from app.models.tool_call import ToolCall
 
 # Alembic Config object — reads alembic.ini
 config = context.config

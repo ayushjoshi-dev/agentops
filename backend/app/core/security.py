@@ -40,8 +40,9 @@ from app.core.logging import get_logger
 logger = get_logger(__name__)
 
 # ── Password Hashing ──────────────────────────────────────
-# bcrypt is the recommended algorithm for password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# bcrypt 4.x changed its API and passlib 1.7.4 hasn't caught up.
+# We use bcrypt directly for Python 3.14 / bcrypt 5.x compatibility.
+import bcrypt as _bcrypt
 
 
 def hash_password(password: str) -> str:
@@ -51,7 +52,9 @@ def hash_password(password: str) -> str:
     Always call this before storing a password.
     Returns a hash like: $2b$12$...
     """
-    return pwd_context.hash(password)
+    salt = _bcrypt.gensalt(rounds=12)
+    hashed = _bcrypt.hashpw(password.encode("utf-8"), salt)
+    return hashed.decode("utf-8")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -61,7 +64,13 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     Returns True if the password matches, False otherwise.
     Safe to use in login flows.
     """
-    return pwd_context.verify(plain_password, hashed_password)
+    try:
+        return _bcrypt.checkpw(
+            plain_password.encode("utf-8"),
+            hashed_password.encode("utf-8")
+        )
+    except Exception:
+        return False
 
 
 # ── JWT Token Management ──────────────────────────────────

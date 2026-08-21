@@ -32,8 +32,14 @@ from app.core.config import settings
 from app.core.logging import setup_logging, get_logger
 from app.core.database import check_database_connection
 
-# Import API routers (we'll add these in future milestones)
+# Import API routers
 from app.api.health import router as health_router
+from app.api.auth import router as auth_router
+from app.api.chat import router as chat_router
+from app.api.conversations import router as conversations_router
+from app.api.orders import router as orders_router
+from app.api.tickets import router as tickets_router
+from app.api.documents import router as documents_router
 
 logger = get_logger(__name__)
 
@@ -73,24 +79,9 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="""
-    ## AgentOps — AI-Powered Customer Operations Agent
-    
-    An Agentic AI system for e-commerce customer support.
-    
-    ### Features
-    - 🤖 **Multi-step AI Agent** powered by LangGraph
-    - 📚 **RAG** with semantic search over policy documents
-    - 🛠️ **Tool Calling** for order lookup, ticket creation, and more
-    - 💬 **Conversational Memory** stored in PostgreSQL
-    - 🔍 **Agent Observability** with execution traces
-    - 🔐 **JWT Authentication**
-    
-    ### Architecture
-    User → FastAPI → LangGraph Agent → Tools + RAG → Supabase PostgreSQL
-    """,
-    docs_url="/docs",         # Swagger UI at /docs
-    redoc_url="/redoc",       # ReDoc UI at /redoc
+    description="Backend API for AgentOps - AI Customer Operations",
+    docs_url="/docs",
+    redoc_url="/redoc",
     lifespan=lifespan,
 )
 
@@ -111,17 +102,13 @@ app.add_middleware(
 
 
 # ── Routers ───────────────────────────────────────────────
-# Each router handles a group of related endpoints.
-# We use prefixes to organize routes.
 app.include_router(health_router, prefix="/api", tags=["Health"])
-
-# Future milestones will add:
-# from app.api.auth import router as auth_router
-# from app.api.chat import router as chat_router
-# from app.api.conversations import router as conversations_router
-# from app.api.orders import router as orders_router
-# from app.api.tickets import router as tickets_router
-# from app.api.documents import router as documents_router
+app.include_router(auth_router, prefix="/api")
+app.include_router(chat_router, prefix="/api")
+app.include_router(conversations_router, prefix="/api")
+app.include_router(orders_router, prefix="/api")
+app.include_router(tickets_router, prefix="/api")
+app.include_router(documents_router, prefix="/api")
 
 
 # ── Root Endpoint ─────────────────────────────────────────
