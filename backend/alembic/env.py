@@ -46,15 +46,16 @@ from app.core.database import Base
 
 # Import ALL models here so Alembic can detect them for autogenerate
 # Add new models here as we create them
-# from app.models.user import User
-# from app.models.product import Product
-# (will be filled in Milestone 3)
+from app.models.user import User
+from app.models.product import Product
 
 # Alembic Config object — reads alembic.ini
 config = context.config
 
 # Override the sqlalchemy.url with our settings
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+# configparser treats % as interpolation syntax, so we must escape them
+# by doubling: % → %% (only needed when setting via set_main_option)
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL.replace("%", "%%"))
 
 # Set up Python logging from alembic.ini config
 if config.config_file_name is not None:
