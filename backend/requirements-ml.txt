@@ -1,0 +1,23 @@
+# ============================================================
+# AgentOps — ML / Embedding Dependencies (Heavy, ~1GB)
+# ============================================================
+#
+# Install AFTER requirements.txt is working:
+#   pip install -r requirements-ml.txt
+#
+# WHY SEPARATE?
+# sentence-transformers requires PyTorch (~800MB download).
+# This is only needed when you run the RAG ingestion pipeline.
+# Core API server runs fine without it.
+#
+# On Render: both files are installed in the build step.
+# ============================================================
+
+# Local embedding model (free, no API key needed)
+# Downloads all-MiniLM-L6-v2 model (~90MB) on first use
+sentence-transformers>=3.3.0,<4.0.0
+
+# torch is pulled automatically by sentence-transformers
+# CPU-only version (no CUDA needed for this project)
+# To force CPU-only and save disk space on Render:
+# torch>=2.0.0 --index-url https://download.pytorch.org/whl/cpu

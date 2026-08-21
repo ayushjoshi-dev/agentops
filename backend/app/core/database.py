@@ -40,11 +40,28 @@ from app.core.logging import get_logger
 logger = get_logger(__name__)
 
 
+# Fix DATABASE_URL for psycopg3 compatibility
+# psycopg3 uses 'postgresql+psycopg://' prefix
+# psycopg2 uses 'postgresql+psycopg2://' or 'postgresql://'
+def _fix_database_url(url: str) -> str:
+    """
+    Normalize the DATABASE_URL for the installed psycopg driver.
+    Supabase gives URLs starting with 'postgresql://' — we need to
+    ensure the correct driver prefix is used.
+    """
+    if url.startswith("postgresql://") or url.startswith("postgres://"):
+        # Try psycopg3 first (our requirement), then fall back to psycopg2
+        return url.replace("postgresql://", "postgresql+psycopg://", 1).replace(
+            "postgres://", "postgresql+psycopg://", 1
+        )
+    return url
+
+
 # ── SQLAlchemy Engine ─────────────────────────────────────
 # The engine manages the connection pool to the database.
 # We create ONE engine for the entire application lifetime.
 engine = create_engine(
-    settings.DATABASE_URL,
+    _fix_database_url(settings.DATABASE_URL),
     poolclass=QueuePool,
     pool_size=settings.DB_POOL_SIZE,
     max_overflow=settings.DB_MAX_OVERFLOW,

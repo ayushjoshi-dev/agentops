@@ -52,8 +52,8 @@ class Settings(BaseSettings):
 
     # ── Database (Supabase PostgreSQL) ────────────────────
     DATABASE_URL: str = Field(
-        ...,  # Required — must be set in .env
-        description="PostgreSQL connection string from Supabase"
+        default="postgresql+psycopg://placeholder:placeholder@localhost:5432/agentops",
+        description="PostgreSQL connection string from Supabase — set in .env"
     )
     DB_POOL_SIZE: int = 10
     DB_MAX_OVERFLOW: int = 20
@@ -61,7 +61,10 @@ class Settings(BaseSettings):
 
     # ── LLM Provider ──────────────────────────────────────
     LLM_PROVIDER: str = "groq"   # "groq" | "openai"
-    LLM_API_KEY: str = Field(..., description="API key for LLM provider")
+    LLM_API_KEY: str = Field(
+        default="",
+        description="API key for LLM provider (Groq/OpenAI) — set in .env"
+    )
     LLM_MODEL: str = "llama-3.1-8b-instant"
     LLM_MAX_TOKENS: int = 2048
     LLM_TEMPERATURE: float = 0.1

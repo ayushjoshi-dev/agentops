@@ -20,7 +20,6 @@ We use `structlog` which makes Python logging produce JSON automatically.
 SECURITY NOTE:
 --------------
 NEVER log passwords, JWT tokens, or API keys.
-The logger below is configured to help avoid accidental leaks.
 """
 
 import structlog
@@ -31,40 +30,40 @@ from app.core.config import settings
 
 def setup_logging() -> None:
     """
-    Configure structlog for structured JSON logging.
-    
-    Call this once at application startup in main.py.
+    Configure structlog for structured logging.
+
+    In development: pretty colored console output.
+    In production:  JSON output for log aggregators.
+
+    Call this ONCE at application startup in main.py.
     """
-    
-    # Set standard library log level
     log_level = getattr(logging, settings.LOG_LEVEL.upper(), logging.INFO)
-    
-    # Configure standard library logging
+
+    # Configure stdlib logging (used by uvicorn, SQLAlchemy, etc.)
     logging.basicConfig(
         format="%(message)s",
         stream=sys.stdout,
         level=log_level,
     )
 
-    # Processors control how log records are formatted
-    # They run in order, each transforming the log event dict
-    shared_processors = [
-        structlog.contextvars.merge_contextvars,      # Add context vars (request_id, user_id, etc.)
-        structlog.processors.add_log_level,           # Add "level" field
-        structlog.processors.TimeStamper(fmt="iso"),  # Add ISO timestamp
-        structlog.stdlib.add_logger_name,             # Add logger name
+    # Shared processors — run on every log event regardless of environment
+    shared_processors: list = [
+        structlog.contextvars.merge_contextvars,       # thread-local context vars
+        structlog.processors.add_log_level,            # add "level" field
+        structlog.processors.TimeStamper(fmt="iso"),   # ISO timestamp
+        # NOTE: add_logger_name removed — incompatible with PrintLoggerFactory
     ]
 
     if settings.is_development:
-        # In development: pretty colored console output (human-readable)
+        # Development: human-readable colored output
         processors = shared_processors + [
             structlog.dev.ConsoleRenderer(colors=True)
         ]
     else:
-        # In production: JSON output (machine-readable for log aggregators)
+        # Production: machine-readable JSON
         processors = shared_processors + [
-            structlog.processors.dict_tracebacks,     # Structured tracebacks
-            structlog.processors.JSONRenderer(),       # Output as JSON
+            structlog.processors.dict_tracebacks,
+            structlog.processors.JSONRenderer(),
         ]
 
     structlog.configure(
@@ -78,11 +77,11 @@ def setup_logging() -> None:
 
 def get_logger(name: str = __name__) -> structlog.BoundLogger:
     """
-    Get a structured logger instance.
-    
+    Get a bound structlog logger.
+
     Usage:
         from app.core.logging import get_logger
         logger = get_logger(__name__)
-        logger.info("order_fetched", order_id="ORD-1025", user_id="abc123")
+        logger.info("order_fetched", order_id="ORD-1025", latency_ms=45)
     """
     return structlog.get_logger(name)
