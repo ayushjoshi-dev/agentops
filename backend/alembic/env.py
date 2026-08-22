@@ -42,7 +42,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.core.config import settings
-from app.core.database import Base
+from app.core.database import Base, _fix_database_url
 
 # Import ALL models so Alembic can detect them for autogenerate
 # Every model file must be imported here — Alembic reads Base.metadata
@@ -62,7 +62,8 @@ config = context.config
 # Override the sqlalchemy.url with our settings
 # configparser treats % as interpolation syntax, so we must escape them
 # by doubling: % → %% (only needed when setting via set_main_option)
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL.replace("%", "%%"))
+fixed_url = _fix_database_url(settings.DATABASE_URL)
+config.set_main_option("sqlalchemy.url", fixed_url.replace("%", "%%"))
 
 # Set up Python logging from alembic.ini config
 if config.config_file_name is not None:
