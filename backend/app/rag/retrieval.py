@@ -84,13 +84,13 @@ def semantic_search(
             dc.chunk_index,
             d.filename,
             d.doc_type,
-            1 - (dc.embedding <=> :embedding::vector) AS similarity
+            1 - (dc.embedding <=> CAST(:embedding AS vector)) AS similarity
         FROM document_chunks dc
         JOIN documents d ON dc.document_id = d.id
         WHERE dc.embedding IS NOT NULL
         {filter_clause}
-            AND (dc.embedding <=> :embedding::vector) < :min_distance
-        ORDER BY dc.embedding <=> :embedding::vector
+            AND (dc.embedding <=> CAST(:embedding AS vector)) < :min_distance
+        ORDER BY dc.embedding <=> CAST(:embedding AS vector)
         LIMIT :top_k
     """)
 
