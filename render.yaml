@@ -89,7 +89,6 @@ services:
   - type: web
     name: agentops-frontend
     runtime: static                    # Static site — just HTML/CSS/JS files
-    region: singapore
     plan: free
     
     rootDir: frontend                  # Vite project root
