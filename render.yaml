@@ -32,7 +32,6 @@ services:
     buildCommand: |
       pip install --upgrade pip
       pip install -r requirements.txt
-      pip install torch --index-url https://download.pytorch.org/whl/cpu
       pip install -r requirements-ml.txt
     
     startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT

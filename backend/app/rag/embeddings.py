@@ -54,13 +54,15 @@ def get_embedding_model():
 
     if settings.EMBEDDING_PROVIDER == "local":
         try:
-            from sentence_transformers import SentenceTransformer
+            from fastembed import TextEmbedding
             logger.info("loading_embedding_model", model=settings.EMBEDDING_MODEL)
-            _embedding_model = SentenceTransformer(settings.EMBEDDING_MODEL)
+            # The model is strictly sentence-transformers/all-MiniLM-L6-v2
+            # Since fastembed is highly optimized, it fits easily in 512MB RAM
+            _embedding_model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
             logger.info("embedding_model_loaded", model=settings.EMBEDDING_MODEL)
         except ImportError:
             logger.error(
-                "sentence_transformers_not_installed",
+                "fastembed_not_installed",
                 hint="Run: pip install -r requirements-ml.txt"
             )
             raise
@@ -89,8 +91,9 @@ def embed_text(text: str) -> List[float]:
     model = get_embedding_model()
 
     if settings.EMBEDDING_PROVIDER == "local":
-        # sentence-transformers returns numpy array — convert to list
-        embedding = model.encode(text, convert_to_numpy=True)
+        # fastembed returns a generator of numpy arrays
+        generator = model.embed([text])
+        embedding = next(generator)
         return embedding.tolist()
     else:
         # LangChain OpenAI embeddings
@@ -110,7 +113,9 @@ def embed_texts(texts: List[str]) -> List[List[float]]:
     model = get_embedding_model()
 
     if settings.EMBEDDING_PROVIDER == "local":
-        embeddings = model.encode(texts, convert_to_numpy=True, show_progress_bar=True)
-        return embeddings.tolist()
+        # fastembed returns a generator
+        generator = model.embed(texts)
+        embeddings = [e.tolist() for e in generator]
+        return embeddings
     else:
         return model.embed_documents(texts)
