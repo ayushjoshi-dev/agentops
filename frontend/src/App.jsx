@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Auth from './Auth';
 import Sidebar from './Sidebar';
 import Chat from './Chat';
+import EvaluationPage from './EvaluationPage';
 import { listConversations, getConversationMessages, sendMessage } from './api';
 
 export default function App() {
@@ -10,34 +11,29 @@ export default function App() {
   const [currentConvId, setCurrentConvId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [activePage, setActivePage] = useState('chat'); // 'chat' | 'evaluation'
+  // HITL state: persisted across messages for the same conversation
+  const [hitlState, setHitlState] = useState({ awaiting: false, pending: null });
 
-  // Load conversations when user logs in
   useEffect(() => {
     if (user && user.id !== 'demo') {
       listConversations().then(setConversations).catch(console.error);
     }
   }, [user]);
 
-  // Load messages when conversation changes
   useEffect(() => {
     if (currentConvId) {
       if (user && user.id !== 'demo') {
         getConversationMessages(currentConvId)
           .then(setMessages)
           .catch(console.error);
-      } else {
-        // In demo mode, we don't persist multiple conversations in the frontend state well
-        // but we can load from the backend if we want. For simplicity, we just clear it
-        // unless it's the active one.
       }
     } else {
       setMessages([]);
     }
   }, [currentConvId, user]);
 
-  const handleLogin = (userData) => {
-    setUser(userData);
-  };
+  const handleLogin = (userData) => { setUser(userData); };
 
   const handleLogout = () => {
     localStorage.removeItem('agentops_token');
@@ -45,22 +41,23 @@ export default function App() {
     setConversations([]);
     setCurrentConvId(null);
     setMessages([]);
+    setHitlState({ awaiting: false, pending: null });
   };
 
   const handleNewChat = () => {
     setCurrentConvId(null);
     setMessages([]);
+    setHitlState({ awaiting: false, pending: null });
   };
 
   const handleSelectConv = (id) => {
     setCurrentConvId(id);
+    setHitlState({ awaiting: false, pending: null });
   };
 
   const handleSendMessage = async (text) => {
-    // Optimistic UI update for user message
-    const tempId = Date.now().toString();
     const newMsg = {
-      id: tempId,
+      id: Date.now().toString(),
       role: 'user',
       content: text,
       created_at: new Date().toISOString(),
@@ -69,9 +66,19 @@ export default function App() {
     setLoading(true);
 
     try {
-      const result = await sendMessage(text, currentConvId);
-      
-      // Update with the real response
+      const result = await sendMessage(
+        text,
+        currentConvId,
+        hitlState.pending,
+        hitlState.awaiting
+      );
+
+      // Update HITL state from response
+      setHitlState({
+        awaiting: result.awaiting_confirmation || false,
+        pending: result.pending_action || null,
+      });
+
       setMessages((prev) => [
         ...prev,
         {
@@ -82,11 +89,12 @@ export default function App() {
           metadata_: {
             tool_calls: result.tool_calls_trace,
             sources: result.sources,
+            awaiting_confirmation: result.awaiting_confirmation,
+            pending_action: result.pending_action,
           },
         }
       ]);
 
-      // If this was a new conversation, update the ID and list
       if (!currentConvId && result.conversation_id) {
         setCurrentConvId(result.conversation_id);
         if (user && user.id !== 'demo') {
@@ -109,6 +117,12 @@ export default function App() {
     }
   };
 
+  const handleConfirm = () => handleSendMessage('Yes, please proceed.');
+  const handleCancel = () => {
+    setHitlState({ awaiting: false, pending: null });
+    handleSendMessage('No, cancel that.');
+  };
+
   if (!user) {
     return <Auth onLogin={handleLogin} />;
   }
@@ -122,12 +136,21 @@ export default function App() {
         onSelectConv={handleSelectConv}
         onNewChat={handleNewChat}
         onLogout={handleLogout}
+        activePage={activePage}
+        onPageChange={setActivePage}
       />
-      <Chat
-        messages={messages}
-        onSendMessage={handleSendMessage}
-        loading={loading}
-      />
+      {activePage === 'evaluation' ? (
+        <EvaluationPage />
+      ) : (
+        <Chat
+          messages={messages}
+          onSendMessage={handleSendMessage}
+          loading={loading}
+          hitlState={hitlState}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+      )}
     </div>
   );
 }

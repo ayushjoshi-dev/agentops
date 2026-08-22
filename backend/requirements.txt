@@ -53,3 +53,7 @@ tenacity>=8.5.0
 
 # NOTE: sentence-transformers (embeddings) is in requirements-ml.txt
 # It pulls PyTorch (~1GB). Install separately after core is working.
+
+# ` Testing
+pytest>=9.1.0
+pytest-asyncio>=0.24.0

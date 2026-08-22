@@ -1,13 +1,11 @@
-"""AgentOps — Pydantic Schemas for all API endpoints."""
-
+"""AgentOps - Pydantic Schemas for all API endpoints."""
 from pydantic import BaseModel, EmailStr, field_validator
 from typing import Optional, List, Any
 from datetime import datetime
 import uuid
 
 
-# ── Auth Schemas ───────────────────────────────────────────
-
+# Auth Schemas
 class RegisterRequest(BaseModel):
     email: EmailStr
     full_name: str
@@ -47,11 +45,13 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 
-# ── Chat Schemas ───────────────────────────────────────────
-
+# Chat Schemas
 class ChatRequest(BaseModel):
     message: str
     conversation_id: Optional[str] = None
+    # HITL: client sends back the pending action context on confirmation
+    pending_action: Optional[dict] = None
+    awaiting_confirmation: Optional[bool] = False
 
     @field_validator("message")
     @classmethod
@@ -79,10 +79,12 @@ class ChatResponse(BaseModel):
     tool_calls_trace: List[ToolCallTrace] = []
     sources: List[Source] = []
     duration_ms: int = 0
+    # HITL: signals frontend to show confirm/cancel buttons
+    awaiting_confirmation: bool = False
+    pending_action: Optional[dict] = None
 
 
-# ── Conversation Schemas ────────────────────────────────────
-
+# Conversation Schemas
 class ConversationResponse(BaseModel):
     id: uuid.UUID
     title: Optional[str]
@@ -104,8 +106,7 @@ class MessageResponse(BaseModel):
         from_attributes = True
 
 
-# ── Order Schemas ──────────────────────────────────────────
-
+# Order Schemas
 class OrderItemResponse(BaseModel):
     id: uuid.UUID
     product_name: str
@@ -131,8 +132,7 @@ class OrderResponse(BaseModel):
         from_attributes = True
 
 
-# ── Ticket Schemas ─────────────────────────────────────────
-
+# Ticket Schemas
 class CreateTicketRequest(BaseModel):
     title: str
     description: str
@@ -155,8 +155,7 @@ class TicketResponse(BaseModel):
         from_attributes = True
 
 
-# ── Document/RAG Schemas ───────────────────────────────────
-
+# Document/RAG Schemas
 class IngestResponse(BaseModel):
     total_chunks: int
     documents: List[dict]

@@ -40,6 +40,8 @@ from app.api.conversations import router as conversations_router
 from app.api.orders import router as orders_router
 from app.api.tickets import router as tickets_router
 from app.api.documents import router as documents_router
+from app.api.evaluation import router as evaluation_router
+from app.api.traces import router as traces_router
 
 logger = get_logger(__name__)
 
@@ -109,6 +111,8 @@ app.include_router(conversations_router, prefix="/api")
 app.include_router(orders_router, prefix="/api")
 app.include_router(tickets_router, prefix="/api")
 app.include_router(documents_router, prefix="/api")
+app.include_router(evaluation_router, prefix="/api")
+app.include_router(traces_router, prefix="/api")
 
 
 # ── Root Endpoint ─────────────────────────────────────────

@@ -1,16 +1,15 @@
 """
-AgentOps — Order Tools
+AgentOps - Order Tools
 ========================
-
 Tools for querying order information from the database.
 
-These tools are called by the agent when users ask about their orders:
-- "Where is my order ORD-1025?"
-- "What is the status of my order?"
-- "Show me my recent orders"
-- "What did I order?"
-"""
+SECURITY: User Authorization
+-----------------------------
+All order queries verify that the requesting user owns the order.
+A user cannot view another user email orders by guessing order numbers.
 
+This is enforced at the tool level, not just the API level.
+"""
 from typing import Optional
 from langchain_core.tools import tool
 from sqlalchemy.orm import Session
@@ -23,6 +22,7 @@ from app.core.logging import get_logger
 logger = get_logger(__name__)
 
 _db_session: Optional[Session] = None
+_current_user_email: Optional[str] = None  # injected per-request
 
 
 def set_db_session(db: Session):
@@ -30,32 +30,70 @@ def set_db_session(db: Session):
     _db_session = db
 
 
+def set_user_email(email: str):
+    """Inject the authenticated user email for authorization checks."""
+    global _current_user_email
+    _current_user_email = email
+
+
+def _get_authorized_order(order_number: str) -> tuple:
+    """
+    Fetch an order and verify the current user owns it.
+    Returns (order, error_string). One of the two will be None.
+
+    Security: Prevents horizontal privilege escalation.
+    If user A tries to access user B orders, they get an access denied message.
+    """
+    if not order_number.startswith("ORD-"):
+        order_number = f"ORD-{order_number}"
+    order_number = order_number.upper()
+
+    order = _db_session.query(Order).filter(
+        Order.order_number == order_number
+    ).first()
+
+    if not order:
+        return None, f"Order {order_number} not found. Please check the order number."
+
+    # Authorization check: verify the order belongs to the current user
+    if _current_user_email:
+        order_user = _db_session.query(User).filter(
+            User.id == order.user_id
+        ).first()
+        if order_user and order_user.email != _current_user_email:
+            logger.warning(
+                "unauthorized_order_access_attempt",
+                requesting_user=_current_user_email,
+                order_owner=order_user.email,
+                order_number=order_number,
+            )
+            return None, (
+                f"Access denied. Order {order_number} does not belong to your account. "
+                "Please verify your order number."
+            )
+
+    return order, None
+
+
 @tool
 def get_order_status(order_number: str) -> str:
     """
     Get the current status of a specific order.
-    
+
     Use this when the user asks about their order status, tracking, or delivery.
-    
+
     Args:
-        order_number: The order number (e.g., 'ORD-1025' or just '1025')
-    
+        order_number: The order number (e.g., "ORD-1025" or just "1025")
+
     Returns:
         Order status, tracking info, and delivery date
     """
     if _db_session is None:
         return "Error: Database not connected."
 
-    # Normalize order number — accept "1025" or "ORD-1025"
-    if not order_number.startswith("ORD-"):
-        order_number = f"ORD-{order_number}"
-
-    order = _db_session.query(Order).filter(
-        Order.order_number == order_number.upper()
-    ).first()
-
-    if not order:
-        return f"Order {order_number} not found. Please check the order number and try again."
+    order, error = _get_authorized_order(order_number)
+    if error:
+        return error
 
     status_messages = {
         OrderStatus.PLACED: "Your order has been placed and is awaiting processing.",
@@ -86,36 +124,30 @@ def get_order_status(order_number: str) -> str:
 
     result_parts.append(f"Order Total: Rs. {order.total_amount:,.2f}")
 
-    logger.info("order_status_retrieved", order_number=order_number, status=order.status.value)
+    logger.info("order_status_retrieved", order_number=order.order_number, status=order.status.value)
     return "\n".join(result_parts)
 
 
 @tool
 def get_order_details(order_number: str) -> str:
     """
-    Get complete details about an order including all items, prices, and shipping info.
-    
-    Use this when the user asks for full order details, to check eligibility for
-    refund/return, or needs product-level information about their order.
-    
+    Get complete details about an order including items, prices, and shipping.
+
+    Use this when the user asks for full order details, to check eligibility
+    for refund/return, or needs product-level information.
+
     Args:
-        order_number: The order number (e.g., 'ORD-1025')
-    
+        order_number: The order number (e.g., "ORD-1025")
+
     Returns:
-        Complete order information including items, prices, and shipping details
+        Complete order information including items, prices, and shipping
     """
     if _db_session is None:
         return "Error: Database not connected."
 
-    if not order_number.startswith("ORD-"):
-        order_number = f"ORD-{order_number}"
-
-    order = _db_session.query(Order).filter(
-        Order.order_number == order_number.upper()
-    ).first()
-
-    if not order:
-        return f"Order {order_number} not found."
+    order, error = _get_authorized_order(order_number)
+    if error:
+        return error
 
     result_parts = [
         f"=== Order Details: {order.order_number} ===",
@@ -141,21 +173,26 @@ def get_order_details(order_number: str) -> str:
             f"  - {item.product_name}: Qty {item.quantity} x Rs. {item.unit_price:,.2f} = Rs. {item.subtotal:,.2f}"
         )
 
-    # Refund eligibility info
     result_parts.append("\n--- Eligibility ---")
     if order.status == OrderStatus.DELIVERED and order.delivery_date:
         from datetime import datetime, timezone
         days_since_delivery = (datetime.now(timezone.utc) - order.delivery_date).days
         if days_since_delivery <= 7:
-            result_parts.append(f"Refund/Return Eligible: YES (delivered {days_since_delivery} days ago, within 7-day window)")
+            result_parts.append(
+                f"Refund/Return Eligible: YES (delivered {days_since_delivery} days ago, within 7-day window)"
+            )
         else:
-            result_parts.append(f"Refund/Return Eligible: POSSIBLY (delivered {days_since_delivery} days ago, beyond standard 7-day window)")
+            result_parts.append(
+                f"Refund/Return Eligible: POSSIBLY (delivered {days_since_delivery} days ago, beyond 7-day window)"
+            )
     elif order.status in [OrderStatus.PLACED, OrderStatus.PROCESSING]:
         result_parts.append("Cancellation: Eligible (order not yet shipped)")
     else:
-        result_parts.append(f"Current status ({order.status.value}) — contact support for options")
+        result_parts.append(
+            f"Current status ({order.status.value}) — contact support for options"
+        )
 
-    logger.info("order_details_retrieved", order_number=order_number)
+    logger.info("order_details_retrieved", order_number=order.order_number)
     return "\n".join(result_parts)
 
 
@@ -163,14 +200,14 @@ def get_order_details(order_number: str) -> str:
 def get_customer_orders(user_email: str, limit: int = 5) -> str:
     """
     Get recent orders for a customer by their email address.
-    
-    Use this when the user asks to see their orders without specifying an order number,
-    or says 'show my orders', 'my recent purchases', etc.
-    
+
+    Use this when the user asks to see their orders without an order number,
+    or says "show my orders", "my recent purchases", etc.
+
     Args:
-        user_email: Customer's email address
+        user_email: Customer email address
         limit:      Maximum number of orders to return (default 5)
-    
+
     Returns:
         List of recent orders with status
     """

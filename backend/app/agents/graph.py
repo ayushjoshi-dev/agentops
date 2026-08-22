@@ -1,49 +1,39 @@
 """
-AgentOps — LangGraph Agent Graph
-===================================
-
-This file assembles the complete agent graph.
-
-LANGGRAPH CONCEPTS:
--------------------
-StateGraph: The main graph object. Nodes are added to it.
-           Edges define the flow between nodes.
-
-START: The entry point (built-in)
-END:   The exit point (built-in)
-
-COMPILED GRAPH:
----------------
-Calling .compile() builds the executable graph.
-The compiled graph can be invoked with: graph.invoke(initial_state)
+AgentOps - LangGraph Agent Graph (with HITL)
+============================================
+Assembles the complete agent graph with Human-In-The-Loop support.
 
 GRAPH STRUCTURE:
 ----------------
 START
   |
   v
-[agent_node]   ← calls LLM with tools
+[agent_node]       <- calls LLM with tools
   |
   v
 [should_continue?]
-  |              |
-  v              v
-[tools_node]   [END]
+  |                 |
+  v                 v
+[action_gate]    [END]
+  |
+[should_execute_tools?]
+  |                 |
+  v                 v
+[tools_node]     [END]    <- awaiting_confirmation=True, ask user
   |
   v
-[agent_node]   ← loop back
+[agent_node]       <- loop back with tool results
   ...
-
-IMPORTANT: LangGraph uses ToolNode from langgraph.prebuilt which
-automatically handles executing tool calls from AIMessages.
 """
-
 from functools import partial
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import ToolNode
 
 from app.agents.state import AgentState
-from app.agents.nodes import agent_node, should_continue, extract_final_response
+from app.agents.nodes import (
+    agent_node, action_gate_node, should_continue,
+    should_execute_tools, extract_final_response
+)
 from app.services.llm import get_llm
 from app.tools.knowledge_tool import search_knowledge_base
 from app.tools.order_tools import get_order_status, get_order_details, get_customer_orders
@@ -55,8 +45,6 @@ from app.core.logging import get_logger
 
 logger = get_logger(__name__)
 
-# ── Tool Registry ─────────────────────────────────────────
-# All tools available to the agent
 ALL_TOOLS = [
     search_knowledge_base,
     get_order_status,
@@ -69,15 +57,7 @@ ALL_TOOLS = [
 
 
 def build_agent_graph():
-    """
-    Build and compile the LangGraph agent graph.
-    
-    Returns:
-        Compiled LangGraph graph ready to invoke
-    """
-    # Get the LLM and bind tools to it
-    # "bind_tools" tells the LLM about available tools in its system
-    # The LLM can then choose to call them by outputting tool_calls
+    """Build and compile the LangGraph agent graph with HITL support."""
     llm = get_llm()
     llm_with_tools = llm.bind_tools(ALL_TOOLS)
 
@@ -88,47 +68,47 @@ def build_agent_graph():
         tool_names=[t.name for t in ALL_TOOLS],
     )
 
-    # Create the agent node with the LLM bound
-    # We use functools.partial to inject llm_with_tools
     _agent_node = partial(agent_node, llm_with_tools=llm_with_tools)
-
-    # Create a ToolNode — executes all tool calls from AIMessage
     tool_node = ToolNode(ALL_TOOLS)
 
-    # ── Build the Graph ───────────────────────────────────
     graph = StateGraph(AgentState)
 
     # Add nodes
     graph.add_node("agent", _agent_node)
+    graph.add_node("action_gate", action_gate_node)
     graph.add_node("tools", tool_node)
 
-    # Add edges
-    # START → agent (always starts with agent reasoning)
+    # START -> agent
     graph.add_edge(START, "agent")
 
-    # agent → tools OR agent → END (conditional)
+    # agent -> action_gate OR end (conditional based on tool_calls presence)
     graph.add_conditional_edges(
         "agent",
         should_continue,
+        {
+            "action_gate": "action_gate",
+            "end": END,
+        }
+    )
+
+    # action_gate -> tools OR end (conditional based on HITL state)
+    graph.add_conditional_edges(
+        "action_gate",
+        should_execute_tools,
         {
             "tools": "tools",
             "end": END,
         }
     )
 
-    # tools → agent (always loop back after tool execution)
+    # tools -> agent (always loop back after tool execution)
     graph.add_edge("tools", "agent")
 
-    # Compile — this validates the graph and prepares it for execution
     compiled = graph.compile()
-
     logger.info("agent_graph_compiled")
     return compiled
 
 
-# ── Singleton Graph Instance ──────────────────────────────
-# Build the graph once at module load time
-# Reuse it for all requests (LLM connection is expensive to set up)
 _agent_graph = None
 
 

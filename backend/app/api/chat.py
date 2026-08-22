@@ -1,14 +1,15 @@
 """
-AgentOps — Chat API
+AgentOps - Chat API
 ======================
-
-The main endpoint that powers the AI agent chat.
-
 Endpoints:
-  POST /api/chat       — Send a message (authenticated)
-  POST /api/chat/demo  — Send a message (unauthenticated demo mode)
-"""
+  POST /api/chat       - Send a message (authenticated)
+  POST /api/chat/demo  - Send a message (unauthenticated demo mode)
 
+HITL Changes:
+  - ChatRequest now accepts pending_action and awaiting_confirmation
+  - ChatResponse now returns awaiting_confirmation and pending_action
+  - The frontend uses awaiting_confirmation=True to show confirm/cancel buttons
+"""
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -23,7 +24,6 @@ logger = get_logger(__name__)
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
 
-# Demo user UUID — used for unauthenticated requests
 DEMO_USER_ID = "00000000-0000-0000-0000-000000000001"
 DEMO_EMAIL = "demo@shopease.com"
 
@@ -36,14 +36,9 @@ def chat(
 ):
     """
     Send a message to the AI agent (authenticated endpoint).
-    
-    The agent will:
-    1. Understand the user's intent
-    2. Call appropriate tools (order lookup, RAG search, etc.)
-    3. Return a grounded response with sources
-    
-    Include the conversation_id from the previous response to continue
-    an existing conversation. Omit it to start a new conversation.
+
+    If awaiting_confirmation=True was returned by a previous call,
+    include the same pending_action and awaiting_confirmation in this request.
     """
     result = run_agent(
         user_message=request.message,
@@ -52,6 +47,8 @@ def chat(
         db=db,
         conversation_id=request.conversation_id,
         is_demo=False,
+        pending_action=request.pending_action,
+        awaiting_confirmation=request.awaiting_confirmation or False,
     )
 
     return ChatResponse(
@@ -60,6 +57,8 @@ def chat(
         tool_calls_trace=result.get("tool_calls_trace", []),
         sources=result.get("sources", []),
         duration_ms=result.get("duration_ms", 0),
+        awaiting_confirmation=result.get("awaiting_confirmation", False),
+        pending_action=result.get("pending_action"),
     )
 
 
@@ -70,18 +69,15 @@ def chat_demo(
 ):
     """
     Send a message to the AI agent (unauthenticated demo mode).
-    
-    Uses the demo user account. Perfect for recruiters and demos.
-    The demo user is pre-seeded with orders and tickets.
+    Uses the demo user account.
     """
-    # Find demo user
     from app.models.user import User
     demo_user = db.query(User).filter(User.email == DEMO_EMAIL).first()
 
     if not demo_user:
         raise HTTPException(
             status_code=503,
-            detail="Demo user not found. Please run the seed script first."
+            detail="Demo user not found. Please run the seed script first.",
         )
 
     result = run_agent(
@@ -91,6 +87,8 @@ def chat_demo(
         db=db,
         conversation_id=request.conversation_id,
         is_demo=True,
+        pending_action=request.pending_action,
+        awaiting_confirmation=request.awaiting_confirmation or False,
     )
 
     return ChatResponse(
@@ -99,4 +97,6 @@ def chat_demo(
         tool_calls_trace=result.get("tool_calls_trace", []),
         sources=result.get("sources", []),
         duration_ms=result.get("duration_ms", 0),
+        awaiting_confirmation=result.get("awaiting_confirmation", False),
+        pending_action=result.get("pending_action"),
     )
