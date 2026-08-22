@@ -35,8 +35,8 @@ services:
       pip install torch --index-url https://download.pytorch.org/whl/cpu
       pip install -r requirements-ml.txt
     
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    #                                                          ^^^^
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    #                                                                  ^^^^
     #   Render automatically sets $PORT — NEVER hardcode 8000 here
     
     healthCheckPath: /api/health       # Render pings this to check if app is running
@@ -55,7 +55,7 @@ services:
       - key: LLM_API_KEY
         sync: false                    # Set in Render dashboard (never commit!)
       - key: LLM_MODEL
-        value: llama-3.1-8b-instant
+        value: openai/gpt-oss-20b
       - key: LLM_MAX_TOKENS
         value: "2048"
       - key: LLM_TEMPERATURE
