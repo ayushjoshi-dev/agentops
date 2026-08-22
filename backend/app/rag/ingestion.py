@@ -46,7 +46,7 @@ from app.rag.embeddings import embed_texts
 logger = get_logger(__name__)
 
 # Path to the knowledge directory
-KNOWLEDGE_DIR = Path(__file__).parent.parent.parent.parent.parent / "knowledge"
+KNOWLEDGE_DIR = Path(__file__).parent.parent.parent.parent / "knowledge"
 
 
 def ingest_knowledge_documents(db: Session, force: bool = False) -> dict:
