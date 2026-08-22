@@ -179,7 +179,7 @@ def seed_users(db) -> list[User]:
         users.append(user)
 
     db.flush()
-    print(f"  → {len(users)} users ready")
+    print(f"  -> {len(users)} users ready")
     return users
 
 
@@ -209,7 +209,7 @@ def seed_products(db) -> list[Product]:
         products.append(product)
 
     db.flush()
-    print(f"  → {len(products)} products ready")
+    print(f"  -> {len(products)} products ready")
     return products
 
 
@@ -301,7 +301,7 @@ def seed_orders(db, users: list[User], products: list[Product]) -> list[Order]:
         orders.append(order)
 
     db.flush()
-    print(f"  → {len(orders)} orders ready")
+    print(f"  -> {len(orders)} orders ready")
     return orders
 
 
@@ -355,7 +355,7 @@ def seed_tickets(db, users: list[User], orders: list[Order]) -> None:
         db.add(ticket)
 
     db.flush()
-    print("  → 15 tickets ready")
+    print("  -> 15 tickets ready")
 
 
 def main():
