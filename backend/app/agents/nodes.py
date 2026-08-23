@@ -36,6 +36,11 @@ def agent_node(state: AgentState, llm_with_tools) -> AgentState:
     """
     messages = state["messages"]
 
+    # Fast-track user confirmation/cancellation, don't invoke LLM
+    if state.get("awaiting_confirmation"):
+        return {}
+
+
     # Build system message with user context
     user_context = ""
     if state.get("user_email"):
@@ -199,7 +204,7 @@ def should_continue(state: AgentState) -> Literal["action_gate", "end"]:
 
     # If waiting for confirmation, do not loop back to tools
     if state.get("awaiting_confirmation"):
-        return "end"
+        return "action_gate"
 
     # If the last message has tool calls, go to action_gate for policy check
     if hasattr(last_message, "tool_calls") and last_message.tool_calls:

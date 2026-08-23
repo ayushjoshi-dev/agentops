@@ -35,7 +35,7 @@ DATASET_PATH = Path(__file__).parent / "dataset.json"
 REPORTS_DIR = Path(__file__).parent / "reports"
 REPORTS_DIR.mkdir(exist_ok=True)
 
-DEMO_USER_ID = "00000000-0000-0000-0000-000000000001"
+DEMO_USER_ID = "40a68a79-aab7-4995-a489-f0915d3dbaef"
 DEMO_EMAIL = "demo@shopease.com"
 
 
