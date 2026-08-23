@@ -180,7 +180,7 @@ def _create_action_summary(tool_name: str, tool_args: dict) -> str:
         priority = tool_args.get("priority", "MEDIUM")
         order = tool_args.get("order_number", "")
         order_text = f" for order {order}" if order else ""
-        return f"Create a {priority} priority support ticket{order_text}: "{title}""
+        return f"Create a {priority} priority support ticket{order_text}: \"{title}\""
     return f"Execute {tool_name} with args: {tool_args}"
 
 
