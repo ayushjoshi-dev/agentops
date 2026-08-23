@@ -37,31 +37,30 @@ export default function Sidebar({
       </div>
 
       {activePage === 'chat' && (
-        <>
-          <div className="sidebar-section">
-            <button className="new-chat-btn" onClick={onNewChat}>
-              <Plus size={16} />
-              New Chat
-            </button>
-          </div>
+        <div className="sidebar-section">
+          <button className="new-chat-btn" onClick={onNewChat} style={{ marginBottom: 20 }}>
+            <Plus size={16} />
+            New Chat
+          </button>
 
-          <div className="conversations-list">
+          <div className="sidebar-section-label">Recent Chats</div>
+          <div className="conversations-list" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
             {conversations.length === 0 ? (
-              <div className="no-conversations">No conversations yet</div>
+              <div className="no-conversations" style={{ fontSize: 13, color: 'var(--text-muted)', padding: '8px' }}>No conversations yet</div>
             ) : (
               conversations.map((conv) => (
                 <div
                   key={conv.id}
-                  className={`conversation-item ${currentConvId === conv.id ? 'active' : ''}`}
+                  className={`conv-item ${currentConvId === conv.id ? 'active' : ''}`}
                   onClick={() => onSelectConv(conv.id)}
                 >
                   <MessageSquare size={14} className="conv-icon" />
-                  <span className="conv-title">{conv.title || 'New Conversation'}</span>
+                  <span className="conv-item-text">{conv.title || 'New Conversation'}</span>
                 </div>
               ))
             )}
           </div>
-        </>
+        </div>
       )}
 
       <div className="sidebar-footer">

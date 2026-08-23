@@ -36,20 +36,8 @@ def set_db_session(db: Session):
 
 def _get_next_ticket_number(db: Session) -> str:
     """Generate the next sequential ticket number."""
-    last = (
-        db.query(SupportTicket)
-        .order_by(SupportTicket.created_at.desc())
-        .first()
-    )
-    if not last or not last.ticket_number:
-        return "TKT-1016"
-    
-    try:
-        num = int(last.ticket_number.split("-")[1])
-        return f"TKT-{num + 1}"
-    except (IndexError, ValueError):
-        import uuid
-        return f"TKT-{str(uuid.uuid4())[:8].upper()}"
+    import uuid
+    return f"TKT-{str(uuid.uuid4())[:8].upper()}"
 
 
 @tool
